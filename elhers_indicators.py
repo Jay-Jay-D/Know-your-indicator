@@ -92,7 +92,7 @@ def instantaneous_trend(na_series, period):
     :param period: the SMA equivalent period.
     :return: a numpy array with the series filtered.
     """
-    alpha = 2.0 / (period + 1)       # 0.07
+    alpha = 2.0 / (period + 1)       
     a_ = (alpha / 2.0) ** 2
     b_ = (1 - alpha)
 
@@ -100,9 +100,12 @@ def instantaneous_trend(na_series, period):
     it[:2] = na_series[:2]
 
     for n in range(2, len(na_series)):
-        it[n] = (alpha - a_) * na_series[n] + (2 * a_) * na_series[n-1] - \
-                (alpha - 3 * a_) * na_series[n-2] + \
-                (2 * b_) * it[n-1] - (b_ ** 2) * it[n-2]
+        if n < 7:
+            it[n] = (na_series[n] + 2 * na_series[n-1] + na_series[n-2]) / 4
+        else:
+            it[n] = (alpha - a_) * na_series[n] + (2 * a_) * na_series[n-1] - \
+                    (alpha - 3 * a_) * na_series[n-2] + \
+                    (2 * b_) * it[n-1] - (b_ ** 2) * it[n-2]
     return it
 
 
