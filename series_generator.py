@@ -16,7 +16,8 @@ def sawtooth_generator(N, level, amplitude, wavelenght):
     return series
 
 
-def add_cauchy_noise(na_series):
+def add_cauchy_noise(na_series, seed=None):
+    if seed != None: np.random.seed(seed)
     N = na_series.shape[0]
     return na_series + np.random.standard_cauchy(N)
     
